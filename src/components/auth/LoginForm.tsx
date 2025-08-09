@@ -38,12 +38,11 @@ export default function LoginForm() {
       backButtonHref={"/signup"}
     >
         
-      <form onSubmit={handleSubmit(loginHandler)} className="space-y-4">
+      <form onSubmit={handleSubmit(loginHandler)} className="space-y-6">
         <TextInput
           label="Email"
           id="email"
           type="email"
-          placeholder="your@email.com"
           register={register("email")}
           error={errors.email?.message}
           iconName="email"
@@ -53,7 +52,6 @@ export default function LoginForm() {
           label="Password"
           id="password"
           type="password"
-          placeholder="******"
           register={register("password")}
           error={errors.password?.message}
           iconName="lockOutline"

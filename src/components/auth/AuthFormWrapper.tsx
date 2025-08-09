@@ -23,7 +23,7 @@ export default function AuthFormWrapper({
 }: AuthFormWrapperProps) {
 
   return (
-    <div className="w-full h-dvh md:h-full max-w-md bg-white rounded-2xl p-8">
+    <div className="w-full min-h-screen md:min-h-full max-w-md bg-white rounded-2xl p-8">
       <div className="text-center mb-4">
         <div className="mx-auto bg-gradient-to-r from-indigo-500 to-purple-600 w-14 h-14 rounded-full flex items-center justify-center mb-2">
           <Icon name="lock" className="h-6 w-6 text-white" />

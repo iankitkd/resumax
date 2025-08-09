@@ -39,12 +39,11 @@ export default function SignupForm() {
       backButtonHref={"/login"}
     >
         
-      <form onSubmit={handleSubmit(signupHandler)} className="space-y-4">
+      <form onSubmit={handleSubmit(signupHandler)} className="space-y-6">
         <TextInput
           label="Name"
           id="name"
           type="name"
-          placeholder="John Doe"
           register={register("name")}
           error={errors.name?.message}
           iconName="user"
@@ -54,7 +53,6 @@ export default function SignupForm() {
           label="Email"
           id="email"
           type="email"
-          placeholder="your@email.com"
           register={register("email")}
           error={errors.email?.message}
           iconName="email"
@@ -64,7 +62,6 @@ export default function SignupForm() {
           label="Password"
           id="password"
           type="password"
-          placeholder="******"
           register={register("password")}
           error={errors.password?.message}
           iconName="lockOutline"
