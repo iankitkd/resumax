@@ -1,20 +1,40 @@
 "use client";
 
+import { Suspense, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "../ui/Button";
 import TextInput from "../ui/TextInput";
 import AuthFormWrapper from "./AuthFormWrapper";
+import FormError from "../shared/FormError";
+import FormSucess from "../shared/FormSuccess";
 
-import { SignupValues, signupSchema } from "@/validators/user";
+import { signupSchema, SignupValues } from "@/lib/validators";
+import { signup } from "@/actions/signup";
+import { DEFAULT_SIGNIN_REDIRECT } from "@/routes";
 
-export default function SignupForm() {
+export default function LoginForm() {
+  return(
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignupFormContent />
+    </Suspense>
+  )
+};
+
+export function SignupFormContent() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+
+  const router = useRouter();
+  const params = useSearchParams();
+  const callbackUrl = params?.get('callbackUrl') || DEFAULT_SIGNIN_REDIRECT;
 
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors },
   } = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
@@ -25,8 +45,24 @@ export default function SignupForm() {
     },
   });
 
-  const signupHandler = () => {
-    console.log(getValues())
+  const signupHandler = async (values: SignupValues) => {
+    setError("");
+    setSuccess("");
+    setIsLoading(true);
+    try {
+      const res = await signup(values);
+      if(res.success) {
+        setSuccess(res.message);
+        router.push(callbackUrl);
+      } else {
+        setError(res.message);
+      }
+    } catch (error) {
+      setError("Something went wrong!");
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -68,7 +104,10 @@ export default function SignupForm() {
           required
         />
 
-        <Button type="submit" variant="gradient" className="w-full" isLoading={false}>
+        {success && <FormSucess message={success} />}
+        {error && <FormError message={error} />}
+
+        <Button type="submit" variant="gradient" className="w-full" isLoading={isLoading} loadingText="Creating your account...">
           Sign up
         </Button>
       </form>

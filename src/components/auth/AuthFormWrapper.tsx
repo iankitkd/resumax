@@ -1,6 +1,7 @@
-import Icon from "../Icon";
-import { Button } from "../ui/Button";
 import Link from "next/link";
+
+import Icon from "../Icon";
+import Socials from "./Socials";
 
 interface AuthFormWrapperProps {
   children: React.ReactNode;
@@ -35,24 +36,7 @@ export default function AuthFormWrapper({
       {children}
 
       {showSocials && (
-        <div>
-          <div className="relative flex items-center justify-center py-2">
-            <div className="absolute top-1/2 w-40 border-t border-gray-300"></div>
-            <span className="relative px-2 bg-white text-gray-500">OR</span>
-          </div>
-
-          <div className="py-1">
-            <Button
-              variant="outline"
-              className="flex-1 py-3 w-full"
-              // onClick={() => socialLogin('google')}
-              // disabled={loading}
-            >
-              <Icon name="google" className="text-xl mr-2" />
-              Continue with Google
-            </Button>
-          </div>
-        </div>
+        <Socials />
       )}
 
       <div className="flex justify-center gap-2 text-sm mt-6">
