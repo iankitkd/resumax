@@ -7,8 +7,9 @@ import { MdAlternateEmail } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { IoSparkles } from "react-icons/io5";
+import { MdLogout } from "react-icons/md";
 
-export type IconName = "userCircle" | "user" | "email" | "lock" | "lockOutline" | "google" | "checkCircle" | "exclamationTriangle" | "sparkle";
+export type IconName = "userCircle" | "user" | "email" | "lock" | "lockOutline" | "google" | "checkCircle" | "exclamationTriangle" | "sparkle" | "logout";
 
 export const Icons: Record<IconName, IconType> = {
   user: LuUserRound,
@@ -20,4 +21,5 @@ export const Icons: Record<IconName, IconType> = {
   checkCircle: FaCheckCircle,
   exclamationTriangle: FaExclamationTriangle,
   sparkle: IoSparkles,
+  logout: MdLogout,
 };

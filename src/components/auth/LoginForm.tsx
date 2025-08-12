@@ -31,7 +31,6 @@ export function LoginFormContent() {
   const router = useRouter();
   const params = useSearchParams();
   const callbackUrl = params?.get('callbackUrl') || DEFAULT_SIGNIN_REDIRECT;
-
   const {
     register,
     handleSubmit,
