@@ -1,11 +1,14 @@
+import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
-import React from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-2 min-h-screen flex flex-col">
       <Header />
-      {children}
+      <main className="flex-1">
+        {children}
+      </main>
+      <Footer />
     </div>
   );
 }

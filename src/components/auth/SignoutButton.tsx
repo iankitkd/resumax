@@ -12,7 +12,7 @@ export default function SignoutButton() {
     <>
       <div
         onClick={() => setIsOpen(true)}
-        className="flex gap-1 items-center cursor-pointer font-medium text-lg"
+        className="flex gap-1 items-center cursor-pointer font-medium text-lg px-4 py-1 rounded-full hover:bg-gray-200"
       >
         <Icon name="logout" />
         Logout

@@ -16,7 +16,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="max-w-5xl mx-auto py-4">
-      <div className="bg-white rounded-2xl shadow-md p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
+      <div className="rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
         <div className="relative h-24 w-24 sm:h-28 sm:w-28 rounded-full overflow-hidden">
           {user.image ? (
             <Image

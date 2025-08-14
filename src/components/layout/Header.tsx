@@ -1,18 +1,19 @@
-import Image from "next/image";
 import Link from "next/link";
 import Icon from "../Icon";
 import { Button } from "../ui/Button";
+import MobileNav from "./MobileNav";
 
 import { auth } from "@/auth";
-import SignoutButton from "../auth/SignoutButton";
+import { APP_NAME, navItems } from "@/data";
 
-const APP_NAME = "Resumax AI";
 
 export default async function Header() {
   const session = await auth();
+  const user = session?.user;
+  const isLoggedIn = !!user;
 
   return (
-    <header className="w-full flex justify-between items-center px-4 py-2 rounded-xl">
+    <header className="w-full sticky top-0 z-20 flex justify-between items-center px-4 md:px-8 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-300">
       <Link href={"/"}>
         <div className="flex gap-2 items-center text-2xl font-semibold">
           <span>
@@ -24,30 +25,30 @@ export default async function Header() {
         </div>
       </Link>
 
-      {session?.user ? (
-        <>
-        <Link href={"/profile"}>
-          <div className="rounded-full h-8 w-8">
-            {session.user.image ? (
-              <Image
-                src={session.user.image}
-                alt="Profile Image"
-                width={32}
-                height={32}
-                className="h-full w-full object-cover rounded-full"
-              />
-            ) : (
-              <Icon name="userCircle" className="h-full w-full" />
-            )}
-          </div>
+      <nav className="hidden md:flex items-center space-x-10">
+        {navItems.map((item) => (
+          <Link 
+            key={item.name}
+            href={item.href}
+            className="text-gray-900 hover:text-indigo-800 transition-colors font-medium"
+          >
+            {item.name}
+          </Link>
+        ))}
+      </nav>
+
+      {user ? (
+        <Link href={"/profile"} className="hidden md:block">
+          <Button variant="gradient" className="px-6 py-1 text-xl">Profile</Button>
         </Link>
-          <SignoutButton />
-          </>
       ) : (
-        <Link href={"/login"}>
-          <Button variant="gradient" className="px-6 py-1">Login</Button>
+        <Link href={"/login"} className="hidden md:block">
+          <Button variant="gradient" className="px-6 py-1 text-xl">Login</Button>
         </Link>
       )}
+
+      {/* Mobile nav button */}
+      <MobileNav isLoggedIn={isLoggedIn} />
     </header>
   );
 }
