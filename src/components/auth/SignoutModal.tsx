@@ -1,13 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ModalWrapper from '../shared/ModalWrapper'
 import ConfirmationCard from '../shared/ConfirmationCard';
 
 interface SignoutModalProps {
-    close: () => void;
-    handleSignout: () => void;
+  close: () => void;
+  handleSignout: () => void;
 }
 
 export default function SignoutModal({close, handleSignout}: SignoutModalProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onConfirm = () => {
+    setIsLoading(true);
+    handleSignout();
+  }
+
   return (
     <ModalWrapper>
       <ConfirmationCard
@@ -15,10 +22,11 @@ export default function SignoutModal({close, handleSignout}: SignoutModalProps) 
         description="Are you sure you want to log out?"
         confirmText="Logout"
         cancelText="Cancel"
-        onConfirm={handleSignout}
+        onConfirm={onConfirm}
         onCancel={close}
         confirmBtnVariant="destructive"
-        disabled={false}
+        disabled={isLoading}
+        loadingText="Logging out..."
       />
     </ModalWrapper>
   )

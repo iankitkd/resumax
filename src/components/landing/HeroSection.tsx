@@ -1,13 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Button } from "../ui/Button";
 
 export default function HeroSection() {
-  const router = useRouter();
-
   return (
     <section className="">
       <div className="min-h-[calc(100vh-52px)] pt-30 md:py-10 px-4 flex flex-col items-center justify-center">
@@ -40,9 +38,11 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <Button onClick={() => router.push('/signup')} variant="gradient" className="px-12 py-3 text-xl">
-            Get Started
-          </Button>
+          <Link href={"/signup"}>
+            <Button  variant="gradient" className="px-12 py-3 text-xl">
+              Get Started
+            </Button>
+          </Link>
         </motion.div>
       </div>
     </section>

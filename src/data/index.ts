@@ -4,8 +4,8 @@ export const APP_NAME = "Resumax AI";
 
 export const navItems = [
   { name: "Home", href: "/" },
-  { name: "Resume", href: "/resume" },
-  { name: "Pricing", href: "/pricing" },
+  { name: "Upload", href: "/upload" },
+  { name: "Pricing", href: "#" },
 ];
 
 interface FeatureInterface {

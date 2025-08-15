@@ -10,6 +10,7 @@ interface ConfirmationCardProps {
   cancelText: string;
   disabled: boolean;
   confirmBtnVariant: "link" | "default" | "outline" | "ghost" | "gradient" | "destructive";
+  loadingText?: string;
 }
 
 export default function ConfirmationCard({
@@ -21,6 +22,7 @@ export default function ConfirmationCard({
   cancelText,
   disabled,
   confirmBtnVariant,
+  loadingText = "",
 }: ConfirmationCardProps) {
   return (
     <div className="w-full sm:w-[350px]">
@@ -41,6 +43,8 @@ export default function ConfirmationCard({
           variant={confirmBtnVariant}
           onClick={onConfirm}
           disabled={disabled}
+          isLoading={disabled}
+          loadingText={loadingText}
         >
           {confirmText}
         </Button>

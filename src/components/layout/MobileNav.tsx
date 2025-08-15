@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 
 import { Button } from "../ui/Button";
@@ -28,7 +28,7 @@ export default function MobileNav({isLoggedIn = false} : {isLoggedIn: boolean}) 
             initial={{ opacity: 0, y: "-100%" }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
-            transition={{duration: 0.4, ease: [0.25, 0.8, 0.25, 1],}}
+            transition={{duration: 0.3, ease: [ "easeInOut"],}}
             className="fixed top-12 left-0 w-full z-10 pt-6 pb-6 md:hidden bg-gradient-to-br from-indigo-50 to-purple-200 shadow-md"
           >
             <div className="px-6 flex flex-col text-center space-y-2">

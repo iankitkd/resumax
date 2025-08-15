@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 import { howItWorks } from "@/data";
 
@@ -21,7 +21,7 @@ export default function HowItWorks() {
         </motion.h2>
       </div>
 
-      <div className="relative max-w-4xl mx-auto">
+      <div className="relative max-w-4xl md:mx-auto ml-4">
         {/* Timeline */}
         <div className="absolute left-4 md:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 to-purple-600"></div>
 
