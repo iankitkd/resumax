@@ -1,7 +1,7 @@
 "use client"
 
-import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import { useCallback, useState } from "react";
+import { FileWithPath, useDropzone } from "react-dropzone";
 
 import { formatFileSize } from "@/lib/utils";
 import Icon from "../Icon";
@@ -14,11 +14,13 @@ interface FileUploaderProps {
 }
 
 export default function FileUpload({ onFileSelect }: FileUploaderProps) {
+  const [file, setFile] = useState<FileWithPath | null>(null);
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0] || null;
-
-      onFileSelect?.(file);
+      const newFile = acceptedFiles[0] || null;
+      setFile(newFile)
+      onFileSelect?.(newFile);
     },
     [onFileSelect]
   );
@@ -30,8 +32,6 @@ export default function FileUpload({ onFileSelect }: FileUploaderProps) {
       accept: { "application/pdf": [".pdf"] },
       maxSize: maxFileSize,
     });
-
-  const file = acceptedFiles[0] || null;
 
   return (
     <div className="bg-gradient-to-br from-indigo-100 to-purple-200 p-4 rounded-xl relative text-center cursor-pointer">
@@ -58,7 +58,7 @@ export default function FileUpload({ onFileSelect }: FileUploaderProps) {
               <Button
                 variant="ghost"
                 className="p-2 hover:bg-red-50"
-                onClick={() => onFileSelect?.(null)}
+                onClick={() => {onFileSelect?.(null); setFile(null);}}
               >
                 <Icon name="cancel" className="text-xl font-semibold text-red-400" />
               </Button>

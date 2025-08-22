@@ -1,24 +1,82 @@
 "use client";
 
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { Button } from "../ui/Button";
 import Icon from "../Icon";
 import FileUpload from "./FileUpload";
-import { FormEvent, useState } from "react";
+import FormError from "../shared/FormError";
+
+interface JdValues {
+  companyName?: string;
+  jobTitle: string;
+  jobDescription: string;
+}
 
 export default function UploadSection() {
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [statusText, setStatusText] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [isJDOpen, setIsJDOpen] = useState(false);
 
+  const [error, setError] = useState("");
+  const [jd, setJd] = useState<JdValues>({
+    companyName: "",
+    jobTitle: "",
+    jobDescription: "",
+  });
+
   const handleFileSelect = (file: File | null) => {
     setFile(file);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    console.log(file);
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    if(!file) {
+      setError("Resume File is required");
+      return;
+    }
+
+    if(isJDOpen && (!jd.jobTitle || !jd.jobDescription)) {
+      setError("Job Title & Job Description is required");
+      return;
+    }
+
     setIsProcessing(true);
     setStatusText("");
+    setError("");
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      setStatusText("Extracting ...");
+      const response = await fetch('/api/extract-text', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to extract text from PDF');
+      }
+      const {text} = await response.json();
+      console.log(text, "text");
+
+      if(text.length < 10) {
+        setError("Very less text found.");
+        return;
+      }
+
+      setStatusText("Analyzing ...");
+      setStatusText("Analyzing Complete, redirecting...");
+      router.push('/result');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
 
@@ -27,7 +85,7 @@ export default function UploadSection() {
       <h1 className="font-bold text-3xl text-center mb-4">
         Smart feedback for your resume
       </h1>
-      <h2 className="font-medium text-center mb-8">
+      <h2 className={`${isProcessing ? "font-semibold text-xl mt-2" : "font-medium"} text-center mb-8`}>
         {isProcessing ? statusText : "Drop your resume for an ATS score and improvement tips"}
       </h2>
 
@@ -43,6 +101,7 @@ export default function UploadSection() {
           <div className="flex flex-col gap-1">
             {/* <label htmlFor="uploader" className="font-semibold text-lg">Upload Resume</label> */}
             <FileUpload onFileSelect={handleFileSelect} />
+            <p className="text-sm text-gray-500">* Your resume is not stored on our databases.</p>
           </div>
 
           <div className="flex gap-2 py-4 justify-between cursor-pointer"
@@ -68,38 +127,43 @@ export default function UploadSection() {
                 </label>
                 <input
                   type="text"
-                  name="company-name"
                   id="company-name"
                   placeholder="Company Name"
+                  value={jd.companyName}
+                  onChange={(e) => setJd((prev) => ({...prev, companyName: e.target.value}) )}
                   className="w-full p-2 rounded-xl outline-0 focus:ring-1 ring-indigo-500 bg-white"
                 />
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="job-title" className="font-semibold text-lg">
-                  Job Title
+                  Job Title <span className="text-red-500 text-sm">*</span>
                 </label>
                 <input
                   type="text"
-                  name="job-title"
                   id="job-title"
                   placeholder="Job Title"
+                  value={jd.jobTitle}
+                  onChange={(e) => setJd((prev) => ({...prev, jobTitle: e.target.value}))}
                   className="w-full p-2 rounded-xl outline-0 focus:ring-1 ring-indigo-500 bg-white"
                 />
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="job-description" className="font-semibold text-lg" >
-                  Job Description
+                  Job Description <span className="text-red-500 text-sm">*</span>
                 </label>
                 <textarea
                   rows={5}
-                  name="job-description"
                   id="job-description"
                   placeholder="Job Description"
+                  value={jd.jobDescription}
+                  onChange={(e) => setJd((prev) => ({...prev, jobDescription: e.target.value}) )}
                   className="p-2 rounded-xl min-h-[160px] outline-0 focus:ring-1 ring-indigo-500 bg-white"
                 />
               </div>
             </>
           )}
+
+          {error && <FormError message={error}/> }
 
           <Button variant="gradient" className="w-full py-3 text-xl" type="submit" >
             Analyze Resume
