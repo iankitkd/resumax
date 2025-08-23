@@ -52,28 +52,43 @@ export default function UploadSection() {
       const formData = new FormData();
       formData.append("file", file);
 
+      // Extracting text
       setStatusText("Extracting ...");
-      const response = await fetch('/api/extract-text', {
+      const extractRes = await fetch('/api/extract-text', {
         method: 'POST',
         body: formData,
       });
 
-      if (!response.ok) {
+      if (!extractRes.ok) {
         throw new Error('Failed to extract text from PDF');
       }
-      const {text} = await response.json();
-      console.log(text, "text");
+      const {text} = await extractRes.json();
 
       if(text.length < 10) {
-        setError("Very less text found.");
-        return;
+        throw new Error('Very less text found.');
       }
 
+      // Analyzing
       setStatusText("Analyzing ...");
+      const analyzeRes = await fetch('/api/analyze-resume', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: text }),
+      });
+
+      if (!analyzeRes.ok) {
+        throw new Error('Failed to analyze resume');
+      }
+
+      const data = await analyzeRes.json();
+
       setStatusText("Analyzing Complete, redirecting...");
-      router.push('/result');
+      // router.push('/result');
     } catch (error) {
       console.log(error);
+      if(error instanceof Error) setError(error.message);
     } finally {
       setIsProcessing(false);
     }

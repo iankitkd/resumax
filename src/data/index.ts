@@ -55,3 +55,33 @@ export const howItWorks = [
     description: "Follow our actionable suggestions to optimize your resume. Re-scan anytime to track your improvement.",
   },
 ];
+
+
+export const ANALYSIS_PROMPT = `Please analyze this resume and provide specific, actionable suggestions for improvement in these areas:
+
+1. ATS (Applicant Tracking System) Optimization:
+   - Identify missing keywords that are important for the job seeker's industry
+   - Suggest improvements for machine readability
+   - Check for formatting issues that might cause parsing errors
+
+2. Content and Impact:
+   - Identify vague statements and suggest stronger, quantifiable achievements
+   - Evaluate the use of action verbs and power words
+   - Assess whether responsibilities are converted into achievements
+
+3. Structure and Formatting:
+   - Evaluate overall organization and flow
+   - Suggest improvements for readability and scannability
+   - Check consistency in formatting
+
+4. Skills Section:
+   - Evaluate relevance to current job market trends
+   - Identify hard vs. soft skills balance
+   - Suggest missing skills that are valuable in the industry
+
+5. Professional Summary/Objective:
+   - Assess clarity, conciseness, and impact
+   - Suggest improvements to make it more compelling
+   - Evaluate alignment with target roles
+
+Please provide your analysis in a structured format with clear sections and bullet points. Be specific and provide examples of how to improve each area.`;
