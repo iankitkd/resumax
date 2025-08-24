@@ -104,7 +104,6 @@ export default function UploadSection() {
     } catch (error) {
       console.log(error);
       if(error instanceof Error) setError(error.message);
-    } finally {
       setIsProcessing(false);
     }
   };

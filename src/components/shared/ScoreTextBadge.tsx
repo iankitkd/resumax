@@ -15,7 +15,7 @@ export default function ScoreTextBadge({ score }: {score: number}) {
   }
 
   return (
-    <div className={`px-1 md:px-3 py-1 rounded-full ${badgeColor}`}>
+    <div className={`px-3 py-1 rounded-full w-fit ${badgeColor}`}>
       <p className="text-sm font-medium">{badgeText}</p>
     </div>
   );

@@ -45,11 +45,11 @@ export default function MobileNav({isLoggedIn = false} : {isLoggedIn: boolean}) 
 
               {isLoggedIn ? (
                 <Link href={"/profile"} className="md:hidden text-center pt-2">
-                  <Button variant="gradient" className="px-6 py-1 w-1/2">Profile</Button>
+                  <Button variant="gradient" className="px-6 py-1 w-1/2" onClick={() => setIsMenuOpen(false)}>Profile</Button>
                 </Link>
               ) : (
                 <Link href={"/login"} className="md:hidden text-center pt-2">
-                  <Button variant="gradient" className="px-6 py-1 w-1/2">Login</Button>
+                  <Button variant="gradient" className="px-6 py-1 w-1/2" onClick={() => setIsMenuOpen(false)}>Login</Button>
                 </Link>
               )}
             </div>

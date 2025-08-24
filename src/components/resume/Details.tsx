@@ -12,7 +12,7 @@ import TipIcon from "../shared/TipIcon";
 
 export default function Details({ feedback }: { feedback: Feedback }) {
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-4 w-full px-2">
       <Accordion
         type="single"
         collapsible
