@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const id = crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2, 9);
 
     const toStore = {
-      result,
+      feedback: result,
       createdAt: new Date().toISOString(),
     };
 
