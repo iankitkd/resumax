@@ -57,7 +57,73 @@ export const howItWorks = [
 ];
 
 
-export const ANALYSIS_PROMPT = `Please analyze this resume and provide specific, actionable suggestions for improvement in these areas:
+export const AIResponseFormat = `
+  interface Feedback {
+    overallScore: number; //max 100
+    ATS: {
+      score: number; //rate based on ATS suitability
+      tips: {
+        type: "good" | "improve";
+        tip: string; 
+      }[]; //give 3-4 tips
+    };
+    toneAndStyle: {
+      score: number; //max 100
+      tips: {
+        type: "good" | "improve";
+        tip: string; //make it a short "title" for the actual explanation
+        explanation: string; //explain in detail here
+      }[]; //give 3-4 tips
+    };
+    content: {
+      score: number; //max 100
+      tips: {
+        type: "good" | "improve";
+        tip: string; //make it a short "title" for the actual explanation
+        explanation: string; //explain in detail here
+      }[]; //give 3-4 tips
+    };
+    structure: {
+      score: number; //max 100
+      tips: {
+        type: "good" | "improve";
+        tip: string; //make it a short "title" for the actual explanation
+        explanation: string; //explain in detail here
+      }[]; //give 3-4 tips
+    };
+    skills: {
+      score: number; //max 100
+      tips: {
+        type: "good" | "improve";
+        tip: string; //make it a short "title" for the actual explanation
+        explanation: string; //explain in detail here
+      }[]; //give 3-4 tips
+    };
+  }`;
+
+export const prepareAnalysisPrompt = ({jobTitle, jobDescription}: { jobTitle: string; jobDescription: string; }) =>
+  `You are an expert in ATS (Applicant Tracking System) and resume analysis.
+  Please analyze and rate this resume and suggest how to improve it.
+  The rating can be low if the resume is bad.
+  Be thorough and detailed. Don't be afraid to point out any mistakes or areas for improvement.
+  Use the provided job description for which user is applying to give more detailed feedback.
+  The job title is: ${jobTitle}
+  The job description is: ${jobDescription}
+  Provide the feedback using the following format:
+  ${AIResponseFormat}
+  Return the analysis as an JSON object, without any other text or comments and without the backticks.`;
+
+export const ANALYSIS_PROMPT = `You are an expert in ATS (Applicant Tracking System) and resume analysis.
+  Please analyze and rate this resume and suggest how to improve it.
+  The rating can be low if the resume is bad.
+  Be thorough and detailed. Don't be afraid to point out any mistakes or areas for improvement.
+  Provide the feedback using the following format:
+  ${AIResponseFormat}
+  Return the analysis as an JSON object, without any other text or comments and without the backticks.`;
+
+
+
+export const ANALYSIS_PROMPT2 = `Please analyze this resume and provide specific, actionable suggestions for improvement in these areas:
 
 1. ATS (Applicant Tracking System) Optimization:
    - Identify missing keywords that are important for the job seeker's industry

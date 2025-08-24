@@ -75,17 +75,32 @@ export default function UploadSection() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: text }),
+        body: JSON.stringify({ text: text, jobTitle: jd.jobTitle, jobDescription: jd.jobDescription}),
       });
 
       if (!analyzeRes.ok) {
         throw new Error('Failed to analyze resume');
       }
+      const {data} = await analyzeRes.json();
 
-      const data = await analyzeRes.json();
+      // Saving
+      setStatusText("Generating url ...");
+      const saveRes = await fetch('/api/save-result', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ result: data}),
+      });
 
+      if (!saveRes.ok) {
+        throw new Error('Failed to generate url');
+      }
+      const {id} = await saveRes.json();
+
+      // Redirecting
       setStatusText("Analyzing Complete, redirecting...");
-      // router.push('/result');
+      router.push(`/resume?id=${encodeURIComponent(id)}`);
     } catch (error) {
       console.log(error);
       if(error instanceof Error) setError(error.message);
