@@ -22,7 +22,7 @@ export interface Feedback {
   };
 }
 
-interface Tip {
+export interface Tip {
   type: "good" | "improve";
   tip: string;
   explanation: string;

@@ -1,9 +1,69 @@
-import React from 'react'
+import Icon from "../Icon";
+import TipIcon from "../shared/TipIcon";
 
-export default function ATS() {
+interface Suggestion {
+  type: "good" | "improve";
+  tip: string;
+}
+
+interface ATSProps {
+  score: number;
+  suggestions: Suggestion[];
+}
+
+export default function ATS ({ score, suggestions } : ATSProps) {
+  // Determine background gradient based on score
+  const gradientClass = 
+    score > 69 ? 'from-green-100'
+      : score > 49 ? 'from-yellow-100'
+      : 'from-red-100';
+
+  // Determine icon based on score
+  const iconSrc = 
+    score > 69 ? '/ats-good.svg'
+      : score > 49 ? '/ats-warning.svg'
+      : '/ats-bad.svg';
+
+  // Determine subtitle based on score
+  const subtitle = 
+    score > 69 ? 'Great Job!'
+      : score > 49 ? 'Good Start'
+      : 'Needs Improvement';
+
   return (
-    <div>
-      
+    <div className={`bg-gradient-to-b ${gradientClass} to-white rounded-2xl shadow-md w-full p-4`}>
+      {/* Top section with icon and headline */}
+      <div className="flex items-center gap-4 mb-6">
+        <img src={iconSrc} alt="ATS Score Icon" className="w-10 h-10" />
+        <div>
+          <h2 className="text-2xl font-bold">ATS Score - {score}/100</h2>
+        </div>
+      </div>
+
+      {/* Description section */}
+      <div className="mb-6">
+        <h3 className="text-xl font-semibold mb-2">{subtitle}</h3>
+        <p className="text-gray-600 mb-4">
+          This score represents how well your resume is likely to perform in Applicant Tracking Systems used by employers.
+        </p>
+
+        {/* Suggestions list */}
+        <div className="space-y-3">
+          {suggestions.map((suggestion, index) => (
+            <div key={index} className="flex items-center gap-3">
+              <TipIcon tipType={suggestion.type} />
+              <p className={suggestion.type === "good" ? "text-green-700" : "text-amber-700"}>
+                {suggestion.tip}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Closing encouragement */}
+      <p className="text-gray-700 text-sm italic">
+        Keep refining your resume to improve your chances of getting past ATS filters and into the hands of recruiters.
+      </p>
     </div>
   )
 }

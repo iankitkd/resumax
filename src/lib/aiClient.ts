@@ -13,7 +13,6 @@ export async function generateContent(prompt: string) {
       contents: prompt,
     });
     
-    console.log(response.text);
     return response.text;
   } catch (error) {
     console.log(error);
