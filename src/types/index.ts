@@ -27,3 +27,11 @@ export interface Tip {
   tip: string;
   explanation: string;
 }
+
+
+export interface TipCategory {
+  id: string;
+  title: string;
+  icon: string;
+  tips: string[];
+}

@@ -1,6 +1,7 @@
 import { IconType } from "react-icons";
 import { CiLock } from "react-icons/ci";
 import { FaInfoCircle, FaLock, FaRegMinusSquare, FaRegPlusSquare, FaUserCircle } from "react-icons/fa";
+import { FaArrowRightLong } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { LuUserRound } from "react-icons/lu";
 import { MdAlternateEmail, MdOutlineCancel, MdPictureAsPdf } from "react-icons/md";
@@ -12,7 +13,7 @@ import { FiBarChart2, FiEdit, FiSearch } from "react-icons/fi";
 
 export type IconName = "userCircle" | "user" | "email" | "lock" | "lockOutline" | "google"
   | "checkCircle" | "exclamationTriangle" | "sparkle" | "logout" | "barChart" | "search" | "edit" 
-  | "plus" | "minus" | "info" | "cancel" | "pdf";
+  | "plus" | "minus" | "info" | "cancel" | "pdf" | "arrowRight";
 
 export const Icons: Record<IconName, IconType> = {
   user: LuUserRound,
@@ -33,4 +34,5 @@ export const Icons: Record<IconName, IconType> = {
   info: FaInfoCircle,
   cancel: MdOutlineCancel,
   pdf: MdPictureAsPdf,
+  arrowRight: FaArrowRightLong,
 };

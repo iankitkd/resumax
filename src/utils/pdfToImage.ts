@@ -7,8 +7,9 @@ export async function pdfToImage( pdfData: ArrayBuffer, pages?: number, scale = 
 
   // dynamic import ensures this code runs only in the browser
   const pdfjsLib = await import("pdfjs-dist");
-//   const pdfWorkerMod = await import('pdfjs-dist/legacy/build/pdf.worker.entry');
-//   pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerMod?.default ?? pdfWorkerMod;
+  // const pdfWorkerMod = await import('pdfjs-dist/legacy/build/pdf.worker.entry');
+  // pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerMod?.default ?? pdfWorkerMod;
+  pdfjsLib.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
   const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
   const imageUrls: string[] = [];
