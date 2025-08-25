@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Link from "next/link";
 
@@ -7,8 +7,8 @@ import { Button } from "../ui/Button";
 
 export default function HeroSection() {
   return (
-    <section className="">
-      <div className="min-h-[calc(100vh-52px)] pt-30 md:py-10 px-4 flex flex-col items-center justify-center">
+    <section id="hero" className="">
+      <div className="lg:min-h-[calc(100vh-52px)] pt-30 py-10 px-4 flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -39,7 +39,7 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <Link href={"/upload"}>
-            <Button  variant="gradient" className="px-12 py-3 text-xl">
+            <Button variant="gradient" className="px-12 py-3 text-xl">
               Get Started
             </Button>
           </Link>
