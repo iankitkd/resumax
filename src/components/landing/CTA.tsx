@@ -20,7 +20,7 @@ export default function CTA() {
         Optimize Your Resume
       </h2>
       <p className="text-xl mb-8 max-w-2xl mx-auto">
-        Get your resume's ATS compatibility and personalized suggestions to improve your chances of landing interviews.
+        Get your resume&apos;s ATS compatibility and personalized suggestions to improve your chances of landing interviews.
       </p>
 
       <Link href={"/upload"}>
