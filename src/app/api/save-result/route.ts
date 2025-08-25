@@ -3,7 +3,7 @@ import { saveResult } from "@/lib/store";
 
 export async function POST(req: Request) {
   try {
-    const {result} = await req.json();
+    const {result, imageUrl} = await req.json();
     if (!result) return NextResponse.json({ error: "Missing result" }, {status: 400});
 
     // generate short id (UUID or crypto)
@@ -11,6 +11,7 @@ export async function POST(req: Request) {
 
     const toStore = {
       feedback: result,
+      imageUrl: imageUrl,
       createdAt: new Date().toISOString(),
     };
 

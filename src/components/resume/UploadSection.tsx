@@ -7,6 +7,7 @@ import { Button } from "../ui/Button";
 import Icon from "../Icon";
 import FileUpload from "./FileUpload";
 import FormError from "../shared/FormError";
+import { pdfToImage } from "@/utils/pdfToImage";
 
 interface JdValues {
   companyName?: string;
@@ -27,6 +28,8 @@ export default function UploadSection() {
     jobTitle: "",
     jobDescription: "",
   });
+
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleFileSelect = (file: File | null) => {
     setFile(file);
@@ -53,7 +56,7 @@ export default function UploadSection() {
       formData.append("file", file);
 
       // Extracting text
-      setStatusText("Extracting ...");
+      setStatusText("Extracting text...");
       const extractRes = await fetch('/api/extract-text', {
         method: 'POST',
         body: formData,
@@ -68,15 +71,22 @@ export default function UploadSection() {
         throw new Error('Very less text found.');
       }
 
+      const arrayBuffer = await file.arrayBuffer();
       // Analyzing
-      setStatusText("Analyzing ...");
-      const analyzeRes = await fetch('/api/analyze-resume', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: text, jobTitle: jd.jobTitle, jobDescription: jd.jobDescription}),
-      });
+      setStatusText("Converting to Image ...");
+      setTimeout(()=> {
+        setStatusText("Analyzing ...");
+      }, 10_000)
+
+      const [imageUrls, analyzeRes] = await Promise.all([
+        pdfToImage(arrayBuffer, 1),
+
+        fetch('/api/analyze-resume', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', },
+          body: JSON.stringify({ text: text, jobTitle: jd.jobTitle, jobDescription: jd.jobDescription}),
+        }),
+      ]);
 
       if (!analyzeRes.ok) {
         throw new Error('Failed to analyze resume');
@@ -90,7 +100,7 @@ export default function UploadSection() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ result: data}),
+        body: JSON.stringify({ result: data, imageUrl: imageUrls[0]}),
       });
 
       if (!saveRes.ok) {
@@ -117,6 +127,7 @@ export default function UploadSection() {
       <h2 className={`${isProcessing ? "font-semibold text-xl mt-2" : "font-medium"} text-center mb-8`}>
         {isProcessing ? statusText : "Drop your resume for an ATS score and improvement tips"}
       </h2>
+      {imageUrl && (<img src={imageUrl}/>)}
 
       {isProcessing ? (
         <div className="w-full max-w-md">
