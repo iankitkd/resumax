@@ -19,7 +19,7 @@
     "clsx": "^2.1.1",
     "ioredis": "^5.7.0",
     "motion": "^12.23.12",
-    "next": "15.4.6",
+    "next": "15.4.10",
     "next-auth": "^5.0.0-beta.29",
     "pdf-parse": "^1.1.1",
     "pdfjs-dist": "^5.4.54",
