@@ -27,8 +27,8 @@ export default function ConfirmationCard({
   return (
     <div className="w-full sm:w-[350px]">
       <div className="pb-4">
-        <h3 className="font-bold text-2xl">{title}</h3>
-        <p className="font-medium text-lg">{description}</p>
+        <h3 className="font-bold text-2xl text-text-primary">{title}</h3>
+        <p className="font-medium text-lg text-text-secondary">{description}</p>
       </div>
 
       <div className="flex justify-between">

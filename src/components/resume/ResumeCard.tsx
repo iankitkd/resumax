@@ -34,10 +34,10 @@ export default function ResumeCard({
   };
 
   return (
-    <div className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition">
+    <div className="group bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition">
       {/* Image */}
       {previewImage ? (
-        <div className="h-40 overflow-hidden bg-gray-100">
+        <div className="h-40 overflow-hidden bg-background">
           <img
             src={previewImage}
             alt="Resume preview"
@@ -45,14 +45,14 @@ export default function ResumeCard({
           />
         </div>
       ) : (
-        <div className="h-40 flex items-center justify-center bg-gray-100 text-gray-400">
+        <div className="h-40 flex items-center justify-center bg-background text-text-secondary">
           No Preview
         </div>
       )}
 
       {/* Content */}
       <div className="p-5 space-y-1">
-        <p className="text-xs text-gray-400">
+        <p className="text-xs text-text-secondary">
           {new Date(createdAt).toLocaleDateString(undefined, {
             day: "numeric",
             month: "short",
@@ -62,7 +62,7 @@ export default function ResumeCard({
 
         <h3 className="font-semibold text-lg">Resume Analysis</h3>
 
-        <p className="text-sm text-gray-600 line-clamp-3">
+        <p className="text-sm text-text-primary line-clamp-3">
           {previewText ?? "View AI feedback for this resume."}
         </p>
 
@@ -70,13 +70,13 @@ export default function ResumeCard({
         <div className="flex justify-between items-center pt-3">
           <Link
             href={`/resume?id=${id}`}
-            className="text-sm font-medium text-blue-600 hover:underline"
+            className="text-sm font-medium text-accent hover:underline"
           >
             View Result
           </Link>
 
           <button
-            className="text-sm text-red-500 hover:text-red-600 cursor-pointer"
+            className="text-sm text-danger hover:text-danger/80 cursor-pointer"
             onClick={() => setShowConfirm(true)}
           >
             Delete

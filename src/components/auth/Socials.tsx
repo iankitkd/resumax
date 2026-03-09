@@ -20,8 +20,8 @@ export default function Socials() {
   return (
     <div>
       <div className="relative flex items-center justify-center py-2">
-        <div className="absolute top-1/2 w-40 border-t border-gray-300"></div>
-        <span className="relative px-2 bg-white text-gray-500">OR</span>
+        <div className="absolute top-1/2 w-40 border-t border-border"></div>
+        <span className="relative px-2 bg-card text-text-secondary">OR</span>
       </div>
 
       <div className="py-1">

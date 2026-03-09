@@ -4,13 +4,13 @@ export default function ScoreTextBadge({ score }: {score: number}) {
   let badgeText = '';
 
   if (score > 70) {
-    badgeColor = 'bg-green-100 text-green-600';
+    badgeColor = 'bg-success/20 text-success';
     badgeText = 'Strong';
   } else if (score > 49) {
-    badgeColor = 'bg-yellow-100 text-yellow-600';
+    badgeColor = 'bg-warning/20 text-warning';
     badgeText = 'Good Start';
   } else {
-    badgeColor = 'bg-red-100 text-red-600';
+    badgeColor = 'bg-danger/20 text-danger';
     badgeText = 'Needs Work';
   }
 

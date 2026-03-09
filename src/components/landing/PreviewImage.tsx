@@ -12,7 +12,7 @@ export default function PreviewImage() {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5 }}
         viewport={{once: true}}
-        className="mx-auto max-w-5xl rounded-xl shadow-2xl border border-purple-400"
+        className="mx-auto max-w-5xl rounded-xl shadow-2xl border border-accent"
       >
         <Image 
           src="/image/previewImage.png" 

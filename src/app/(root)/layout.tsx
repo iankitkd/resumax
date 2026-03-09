@@ -3,7 +3,7 @@ import Header from "@/components/layout/Header";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="container mx-auto px-2 min-h-screen flex flex-col text-foreground">
+    <div className="container mx-auto px-2 min-h-screen flex flex-col text-text-primary">
       <Header />
       <main className="flex-1">
         {children}

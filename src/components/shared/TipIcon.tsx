@@ -4,11 +4,11 @@ export default function TipIcon({ tipType, size=4 }: { tipType: "good" | "improv
   return (
     <div className={`size-${size}`}>
       {tipType == "good" ? (
-        <Icon name="checkCircle" className="text-green-700" />
+        <Icon name="checkCircle" className="text-success" />
       ) : tipType == "improve" ? (
-        <Icon name="exclamationTriangle" className="text-yellow-700" />
+        <Icon name="exclamationTriangle" className="text-warning" />
       ): (
-        <Icon name="exclamationTriangle" className="text-red-700" />
+        <Icon name="exclamationTriangle" className="text-danger" />
       )}
     </div>
   );

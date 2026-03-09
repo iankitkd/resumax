@@ -34,7 +34,7 @@ export default async function page({
 
   return (
     <div className="">
-      <h2 className="text-4xl text-black font-bold text-center py-6">Resume Review</h2>
+      <h2 className="text-4xl text-text-primary font-bold text-center py-6">Resume Review</h2>
 
       <div className="w-full flex flex-col-reverse lg:flex-row justify-between gap-6">
         <section className="w-full lg:w-[35%]">

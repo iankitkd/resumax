@@ -7,8 +7,12 @@ import { Button } from "../ui/Button";
 
 export default function HeroSection() {
   return (
-    <section id="hero" className="">
-      <div className="lg:min-h-[calc(100vh-52px)] pt-30 py-10 px-4 flex flex-col items-center justify-center">
+    <section id="hero" className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 flex justify-center">
+        <div className="h-[600px] w-[600px] rounded-full bg-accent/20 blur-[140px]" />
+      </div>
+
+      <div className="relative z-10 lg:min-h-[calc(100vh-52px)] pt-30 py-10 px-4 flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -16,10 +20,10 @@ export default function HeroSection() {
           className="flex flex-col items-center justify-center"
         >
           <h1 className="text-center font-bold leading-tight mb-6">
-            <p className="text-4xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">
+            <p className="text-4xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-secondary">
               AI-Powered Resume Analysis
             </p>
-            <p className="pt-2 text-3xl md:text-5xl text-gray-900">That Gets You Hired</p>
+            <p className="pt-2 text-3xl md:text-5xl text-text-primary">That Gets You Hired</p>
           </h1>
         </motion.div>
 
@@ -27,7 +31,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-lg md:text-xl text-center text-gray-600 mb-10 max-w-xl"
+          className="text-lg md:text-xl text-center text-text-secondary mb-10 max-w-xl"
         >
           Instantly analyze your resume, get your ATS score, and receive
           actionable suggestions to land more interviews.

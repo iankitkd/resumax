@@ -13,9 +13,9 @@ export default function Features() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold mb-6 text-gray-900"
+          className="text-3xl md:text-4xl font-bold mb-6 text-text-primary"
         >
-          <div className="text-center text-xl font-semibold text-indigo-500 pb-2">
+          <div className="text-center text-xl font-semibold text-accent pb-2">
             Features
           </div>
           Transform Your Job Search
@@ -30,13 +30,13 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="bg-white flex flex-col items-center border border-gray-200 rounded-2xl p-6 hover:border-indigo-300 hover:scale-[1.02] transition-all shadow-sm hover:shadow-md"
+            className="bg-card flex flex-col items-center border border-border rounded-2xl p-6 hover:scale-[1.02] transition-all shadow-sm hover:shadow-md"
           >
-            <div className="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center mb-4">
+            <div className="w-12 h-12 rounded-xl bg-accent-secondary flex items-center justify-center mb-4">
               <Icon name={feature.icon} className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold mb-3 text-gray-900">{feature.title}</h3>
-            <p className="text-gray-600 text-center">{feature.description}</p>
+            <h3 className="text-xl font-bold mb-3 text-text-primary">{feature.title}</h3>
+            <p className="text-text-secondary text-center">{feature.description}</p>
           </motion.div>
         ))}
       </div>

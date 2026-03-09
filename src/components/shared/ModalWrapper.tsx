@@ -21,20 +21,20 @@ export default function ModalWrapper({ children, title, onClose }: ModalWrapperP
       onClick={handleBackdropClick}
     >
       <div
-        className="relative w-full max-w-md p-4 md:p-6 bg-background rounded-2xl shadow-xl"
+        className="relative w-full max-w-md p-4 md:p-6 bg-card border border-border rounded-2xl shadow-xl"
         onClick={handleCardClick}
       >
         {onClose && (
           <button
             onClick={onClose}
-            className="absolute top-1 right-1 px-2 py-1 font-bold text-xl text-black cursor-pointer hover:bg-secondary rounded-xl"
+            className="absolute top-1 right-1 px-2 py-1 font-bold text-xl cursor-pointer hover:bg-secondary rounded-xl"
             aria-label="Close modal"
           >
             ✕
           </button>
         )}
 
-        {title && (<h2 className="pb-2 font-semibold text-2xl text-center text-primary">{title}</h2>)}
+        {title && (<h2 className="pb-2 font-semibold text-2xl text-center text-text-primary">{title}</h2>)}
 
         {children}
       </div>

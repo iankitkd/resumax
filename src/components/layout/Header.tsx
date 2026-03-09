@@ -13,13 +13,13 @@ export default async function Header() {
   const isLoggedIn = !!user;
 
   return (
-    <header className="w-full sticky top-0 z-20 flex justify-between items-center px-4 md:px-8 py-2 rounded-b-2xl bg-gradient-to-r from-indigo-100 to-purple-300">
+    <header className="w-full sticky top-0 z-20 flex justify-between items-center px-4 md:px-8 py-2 rounded-b-2xl bg-gradient-to-r from-bg-gradient-start via-bg-gradient-mid to-bg-gradient-end border-b border-border">
       <Link href={"/"}>
         <div className="flex gap-2 items-center text-2xl font-semibold">
           <span>
-            <Icon name="sparkle" className="text-indigo-500" />
+            <Icon name="sparkle" className="text-accent" />
           </span>
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent to-accent-secondary">
             {APP_NAME}
           </span>
         </div>
@@ -30,7 +30,7 @@ export default async function Header() {
           <Link 
             key={item.name}
             href={item.href}
-            className="text-gray-900 font-medium text-lg hover:text-indigo-800 transition-colors"
+            className="text-text-primary font-medium text-lg hover:text-accent-secondary transition-colors"
           >
             {item.name}
           </Link>

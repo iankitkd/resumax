@@ -34,46 +34,46 @@ export default function FileUpload({ onFileSelect }: FileUploaderProps) {
     });
 
   return (
-    <div className="bg-gradient-to-br from-indigo-100 to-purple-200 p-4 rounded-xl relative text-center cursor-pointer">
+    <div className="bg-gradient-to-br from-bg-gradient-start/50 to-bg-gradient-end/50 border border-border p-4 rounded-xl relative text-center cursor-pointer">
       <div {...getRootProps()}>
         <input {...getInputProps()} />
 
         <div className="cursor-pointer">
           {file ? (
             <div
-              className="flex items-center justify-between p-3 bg-gray-50 rounded-xl"
+              className="flex items-center justify-between p-3 bg-card rounded-xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center gap-3">
-                <Icon name="pdf" className="text-2xl font-semibold text-red-600" />
+                <Icon name="pdf" className="text-2xl font-semibold text-red-500" />
                 <div className="flex flex-col md:flex-row items-baseline space-x-4">
-                  <p className="font-medium text-gray-700 truncate max-w-48 md:max-w-xs lg:max-w-sm">
+                  <p className="font-medium text-text-primary truncate max-w-48 md:max-w-xs lg:max-w-sm">
                     {file.name}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-text-secondary">
                     {formatFileSize(file.size)}
                   </p>
                 </div>
               </div>
               <Button
                 variant="ghost"
-                className="p-2 hover:bg-red-50"
+                className="p-2 hover:bg-background"
                 onClick={() => {onFileSelect?.(null); setFile(null);}}
               >
-                <Icon name="cancel" className="text-xl font-semibold text-red-400" />
+                <Icon name="cancel" className="text-xl font-semibold text-danger" />
               </Button>
             </div>
           ) : (
             <div className="">
               <div className="mx-auto w-10 h-10 flex items-center justify-center mb-2">
-                <Icon name="info" className="text-3xl text-indigo-800"></Icon>
+                <Icon name="info" className="text-3xl text-accent"></Icon>
               </div>
-              <p className="text-lg font-semibold text-gray-500">
+              <p className="text-lg font-semibold text-text-primary">
                 Click to Upload
                 <span className="font-normal"> or </span> 
                 Drag & Drop
               </p>
-              <p className="text-lg text-gray-500">
+              <p className="text-lg text-text-secondary">
                 PDF (max {formatFileSize(maxFileSize)})
               </p>
             </div>

@@ -120,11 +120,11 @@ export default function UploadSection() {
 
 
   return (
-    <div className="page-heading px-2 md:px-0 py-4 flex flex-col items-center">
-      <h1 className="font-bold text-3xl text-center mb-4">
+    <div className="page-heading px-2 md:px-0 py-6 flex flex-col items-center">
+      <h1 className="font-bold text-text-primary text-3xl text-center mb-4">
         Smart feedback for your resume
       </h1>
-      <h2 className={`${isProcessing ? "font-semibold text-xl mt-2" : "font-medium"} text-center mb-8`}>
+      <h2 className={`${isProcessing ? "font-semibold text-xl mt-2" : "font-medium"} text-text-secondary text-center mb-8`}>
         {isProcessing ? statusText : "Drop your resume for an ATS score and improvement tips"}
       </h2>
       {imageUrl && (<img src={imageUrl}/>)}
@@ -171,7 +171,7 @@ export default function UploadSection() {
                   placeholder="Company Name"
                   value={jd.companyName}
                   onChange={(e) => setJd((prev) => ({...prev, companyName: e.target.value}) )}
-                  className="w-full p-2 rounded-xl outline-0 focus:ring-1 ring-indigo-500 bg-white"
+                  className="w-full p-2 rounded-xl outline-0 focus:ring-1 ring-accent bg-card"
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -184,7 +184,7 @@ export default function UploadSection() {
                   placeholder="Job Title"
                   value={jd.jobTitle}
                   onChange={(e) => setJd((prev) => ({...prev, jobTitle: e.target.value}))}
-                  className="w-full p-2 rounded-xl outline-0 focus:ring-1 ring-indigo-500 bg-white"
+                  className="w-full p-2 rounded-xl outline-0 focus:ring-1 ring-accent bg-card"
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -197,7 +197,7 @@ export default function UploadSection() {
                   placeholder="Job Description"
                   value={jd.jobDescription}
                   onChange={(e) => setJd((prev) => ({...prev, jobDescription: e.target.value}) )}
-                  className="p-2 rounded-xl min-h-[160px] outline-0 focus:ring-1 ring-indigo-500 bg-white"
+                  className="p-2 rounded-xl min-h-[160px] outline-0 focus:ring-1 ring-accent bg-card"
                 />
               </div>
             </>
