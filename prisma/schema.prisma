@@ -43,10 +43,14 @@ model Account {
 }
 
 model Result {
-  id             String   @id
-  encryptedValue String
-  createdAt      DateTime @default(now())
+  id              String   @id
+  userId          String
+  previewImage    String?
+  previewText     String?
+  encryptedValue  String
+  createdAt       DateTime @default(now())
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }

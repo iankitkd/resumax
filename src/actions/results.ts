@@ -1,5 +1,7 @@
+"use server"
+
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { decrypt } from "@/lib/encryption";
 
 export async function getUserResults(userId: string) {
   const results = await prisma.result.findMany({
@@ -9,21 +11,32 @@ export async function getUserResults(userId: string) {
     orderBy: {
       createdAt: "desc",
     },
+    select: {
+      id: true,
+      userId: true,
+      previewImage: true,
+      previewText: true,
+      createdAt: true,
+    },
+    take: 9,
   });
 
-  return results.map((r) => {
-    try {
-      const decrypted = JSON.parse(decrypt(r.encryptedValue));
-      return {
-        id: r.id,
-        createdAt: r.createdAt,
-        ...decrypted,
-      };
-    } catch {
-      return {
-        id: r.id,
-        createdAt: r.createdAt,
-      };
-    }
+  return results;
+}
+
+export async function deleteResult(id: string) {
+  console.log(id, "id")
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  await prisma.result.delete({
+    where: {
+      id,
+      userId,
+    },
   });
 }

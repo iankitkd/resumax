@@ -1,6 +1,7 @@
 import { prisma } from "./prisma";
 import { encrypt, decrypt } from "./encryption";
 import { cacheGet, cacheSet } from "./cache";
+import { generatePreviewText } from "@/utils/feedbackPreview";
 
 const TTL = Number(process.env.RESULT_TTL_SECONDS ?? 3600);
 
@@ -8,43 +9,64 @@ function redisKey(id: string) {
   return `result:${id}`;
 }
 
-export async function saveResult(id: string, value: string, userId: string) {
-  console.log(value)
-  const encrypted = encrypt(value);
-  console.log(encrypted)
+export async function saveResult(
+  id: string,
+  result: string,
+  imageUrl: string,
+  userId: string,
+) {
+  const previewImage = imageUrl ?? null;
+  // const previewText = result?.slice(0, 160) ?? null;
+  const previewText = generatePreviewText(JSON.parse(result));
 
-  // database
+  const encrypted = await encrypt(result);
+
   await prisma.result.upsert({
     where: { id },
-    update: { encryptedValue: encrypted },
+    update: {
+      encryptedValue: encrypted,
+      previewImage,
+      previewText,
+    },
     create: {
       id,
-      encryptedValue: encrypted,
       userId,
+      encryptedValue: encrypted,
+      previewImage,
+      previewText,
     },
   });
 
-  // cache
-  await cacheSet(redisKey(id), encrypted, TTL);
+  const cachePayload = {
+    data: result,
+    imageUrl,
+  };
+
+  await cacheSet(redisKey(id), JSON.stringify(cachePayload), TTL);
 }
 
 export async function getResult(id: string, userId: string) {
-  // check cache
   const cached = await cacheGet(redisKey(id));
   if (cached) {
-    return decrypt(cached);
+    return JSON.parse(cached);
   }
 
-  // fallback to DB
-  const record = await prisma.result.findUnique({
-    where: { id, userId },
+  const record = await prisma.result.findFirst({
+    where: {
+      id,
+      userId,
+    },
   });
   if (!record) return null;
 
-  const decrypted = decrypt(record.encryptedValue);
+  const decrypted = await decrypt(record.encryptedValue);
 
-  // repopulate cache
-  await cacheSet(redisKey(id), record.encryptedValue, TTL);
+  const payload = {
+    data: decrypted,
+    imageUrl: record.previewImage,
+  };
 
-  return decrypted;
+  await cacheSet(redisKey(id), JSON.stringify(payload), TTL);
+
+  return payload;
 }

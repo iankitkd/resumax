@@ -1,9 +1,11 @@
+"use server"
+
 import crypto from "crypto";
 
 const ALGORITHM = "aes-256-gcm";
 const SECRET_KEY = Buffer.from(process.env.RESULT_SECRET_KEY!, "hex");
 
-export function encrypt(text: string) {
+export async function encrypt(text: string) {
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv(ALGORITHM, SECRET_KEY, iv);
 
@@ -17,7 +19,7 @@ export function encrypt(text: string) {
   return Buffer.concat([iv, tag, encrypted]).toString("base64");
 }
 
-export function decrypt(data: string) {
+export async function decrypt(data: string) {
   const buffer = Buffer.from(data, "base64");
 
   const iv = buffer.subarray(0, 16);

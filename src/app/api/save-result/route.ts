@@ -9,18 +9,12 @@ export async function POST(req: Request) {
 
     const session = await auth();
     const userId = session?.user?.id;
-    if (!userId) return NextResponse.json({error: "Unauthorized"}, {status: 403});
+    if (!userId) return NextResponse.json({error: "Unauthorized"}, {status: 401});
 
     // generate short id (UUID or crypto)
     const id = crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2, 9);
 
-    const toStore = {
-      feedback: result,
-      imageUrl: imageUrl,
-      createdAt: new Date().toISOString(),
-    };
-
-    await saveResult(id, JSON.stringify(toStore), userId);
+    await saveResult(id, result, imageUrl, userId);
 
     return NextResponse.json({ id }, {status: 200});
   } catch (err) {

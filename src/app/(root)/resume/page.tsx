@@ -29,9 +29,8 @@ export default async function page({
     return notFound();
   }
 
-  const data = JSON.parse(result);
-  const feedback: Feedback = JSON.parse(data.feedback);
-  const imageUrl = data.imageUrl;
+  const {data, imageUrl} = result;
+  const feedback: Feedback = JSON.parse(data);
 
   return (
     <div className="">
