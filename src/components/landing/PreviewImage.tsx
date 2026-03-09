@@ -15,7 +15,7 @@ export default function PreviewImage() {
         className="mx-auto max-w-5xl rounded-xl shadow-2xl border border-purple-400"
       >
         <Image 
-          src="/previewImage.png" 
+          src="/image/previewImage.png" 
           alt="Preview" 
           width={800} 
           height={500} 

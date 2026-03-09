@@ -1,6 +1,7 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
 
+import { auth } from "@/auth";
 import { getResult } from "@/lib/store";
 import { Feedback } from "@/types";
 
@@ -13,11 +14,17 @@ export default async function page({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    redirect("/login");
+  }
+  
   const { id } = await searchParams;
   if (!id) {
     return notFound();
   }
-  const result = await getResult(id);
+  const result = await getResult(id, userId);
   if (!result) {
     return notFound();
   }

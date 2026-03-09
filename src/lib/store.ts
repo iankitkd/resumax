@@ -1,39 +1,50 @@
-import Redis from "ioredis";
-import { REDIS_URL } from "./env";
+import { prisma } from "./prisma";
+import { encrypt, decrypt } from "./encryption";
+import { cacheGet, cacheSet } from "./cache";
 
-const TTL_SECONDS = Number(process.env.RESULT_TTL_SECONDS ?? 60 * 60); // 1 hour
+const TTL = Number(process.env.RESULT_TTL_SECONDS ?? 3600);
 
-let redis: Redis | null = null;
-if (REDIS_URL) {
-  redis = new Redis(REDIS_URL);
-  redis.on("error", (err) => console.error("Redis error:", err));
+function redisKey(id: string) {
+  return `result:${id}`;
 }
 
-// Development fallback (NOT production-grade)
-const inMemory = new Map<string, { value: string; expiresAt: number }>();
+export async function saveResult(id: string, value: string, userId: string) {
+  console.log(value)
+  const encrypted = encrypt(value);
+  console.log(encrypted)
 
-export async function saveResult(id: string, value: string) {
-  if (redis) {
-    // stores value with TTL in Redis
-    await redis.set(`result:${id}`, value, "EX", TTL_SECONDS);
-    return;
-  }
-  // fallback: store in-memory (ephemeral)
-  inMemory.set(id, { value, expiresAt: Date.now() + TTL_SECONDS * 1000 });
-  // prune automatically after TTL
-  setTimeout(() => inMemory.delete(id), TTL_SECONDS * 1000 + 1000);
+  // database
+  await prisma.result.upsert({
+    where: { id },
+    update: { encryptedValue: encrypted },
+    create: {
+      id,
+      encryptedValue: encrypted,
+      userId,
+    },
+  });
+
+  // cache
+  await cacheSet(redisKey(id), encrypted, TTL);
 }
 
-export async function getResult(id: string): Promise<string | null> {
-  if (redis) {
-    const v = await redis.get(`result:${id}`);
-    return v;
+export async function getResult(id: string, userId: string) {
+  // check cache
+  const cached = await cacheGet(redisKey(id));
+  if (cached) {
+    return decrypt(cached);
   }
-  const entry = inMemory.get(id);
-  if (!entry) return null;
-  if (Date.now() > entry.expiresAt) {
-    inMemory.delete(id);
-    return null;
-  }
-  return entry.value;
+
+  // fallback to DB
+  const record = await prisma.result.findUnique({
+    where: { id, userId },
+  });
+  if (!record) return null;
+
+  const decrypted = decrypt(record.encryptedValue);
+
+  // repopulate cache
+  await cacheSet(redisKey(id), record.encryptedValue, TTL);
+
+  return decrypted;
 }

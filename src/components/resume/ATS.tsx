@@ -20,9 +20,9 @@ export default function ATS ({ score, suggestions } : ATSProps) {
 
   // Determine icon based on score
   const iconSrc = 
-    score > 69 ? '/ats-good.svg'
-      : score > 49 ? '/ats-warning.svg'
-      : '/ats-bad.svg';
+    score > 69 ? '/icons/ats-good.svg'
+      : score > 49 ? '/icons/ats-warning.svg'
+      : '/icons/ats-bad.svg';
 
   // Determine subtitle based on score
   const subtitle = 

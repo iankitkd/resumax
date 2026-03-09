@@ -15,7 +15,7 @@ import { signupSchema, SignupValues } from "@/lib/validators";
 import { signup } from "@/actions/signup";
 import { DEFAULT_SIGNIN_REDIRECT } from "@/routes";
 
-export default function LoginForm() {
+export default function SignupForm() {
   return(
     <Suspense fallback={<div>Loading...</div>}>
       <SignupFormContent />

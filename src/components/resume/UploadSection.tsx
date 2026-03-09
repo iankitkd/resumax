@@ -131,7 +131,7 @@ export default function UploadSection() {
 
       {isProcessing ? (
         <div className="w-full max-w-md">
-          <img src="/scan.gif" alt="Scan gif" className="w-full" />
+          <img src="/image/scan.gif" alt="Scan gif" className="w-full" />
         </div>
       ) : (
         <form
@@ -141,7 +141,7 @@ export default function UploadSection() {
           <div className="flex flex-col gap-1">
             {/* <label htmlFor="uploader" className="font-semibold text-lg">Upload Resume</label> */}
             <FileUpload onFileSelect={handleFileSelect} />
-            <p className="text-sm text-gray-500">* Your resume is not stored on our databases.</p>
+            {/* <p className="text-sm text-gray-500">* Your resume is encrypted.</p> */}
           </div>
 
           <div className="flex gap-2 py-4 justify-between cursor-pointer"
