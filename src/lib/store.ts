@@ -1,4 +1,6 @@
-import { prisma } from "./prisma";
+"use server"
+
+import { prisma } from "@/lib/prisma";
 import { encrypt, decrypt } from "./encryption";
 import { cacheGet, cacheSet } from "./cache";
 import { generatePreviewText } from "@/utils/feedbackPreview";
@@ -10,7 +12,6 @@ function redisKey(id: string) {
 }
 
 export async function saveResult(
-  id: string,
   result: string,
   imageUrl: string,
   userId: string,
@@ -21,21 +22,15 @@ export async function saveResult(
 
   const encrypted = await encrypt(result);
 
-  await prisma.result.upsert({
-    where: { id },
-    update: {
-      encryptedValue: encrypted,
-      previewImage,
-      previewText,
-    },
-    create: {
-      id,
+  const record = await prisma.result.create({
+    data: {
       userId,
       encryptedValue: encrypted,
       previewImage,
       previewText,
     },
   });
+  const id = record.id;
 
   const cachePayload = {
     data: result,
@@ -43,6 +38,8 @@ export async function saveResult(
   };
 
   await cacheSet(redisKey(id), JSON.stringify(cachePayload), TTL);
+
+  return id;
 }
 
 export async function getResult(id: string, userId: string) {

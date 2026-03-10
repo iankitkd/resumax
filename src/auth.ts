@@ -1,20 +1,20 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import NextAuth from "next-auth"
-import Credentials from "next-auth/providers/credentials"
-import Google from "next-auth/providers/google"
+import "server-only";
 
-import { prisma } from "@/lib/prisma"
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
+
+import authConfig from "@/auth.config";
 import { signinSchema } from "@/lib/validators";
 import { getUserByEmail } from "@/actions/user";
 import { verifyPassword } from "@/lib/password";
- 
+
+import { prisma } from "@/lib/prisma";
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  pages: {
-    signIn: "/login",
-    newUser: "/signup",
-  },
-  adapter: PrismaAdapter(prisma),
-  session: {strategy: "jwt"},
+  ...authConfig,
+  adapter: PrismaAdapter(prisma as any),
   providers: [
     Google,
     Credentials({
@@ -45,19 +45,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    jwt: ({ token, user }) => {
-      if (user) {
-        token.sub = user.id;
-      }
-      return token;
-    },
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.sub
-      }
-    }),
-  },
-})
+});

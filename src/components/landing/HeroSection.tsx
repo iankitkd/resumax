@@ -12,7 +12,7 @@ export default function HeroSection() {
         <div className="h-[600px] w-[600px] rounded-full bg-accent/20 blur-[140px]" />
       </div>
 
-      <div className="relative z-10 lg:min-h-[calc(100vh-52px)] pt-30 py-10 px-4 flex flex-col items-center justify-center">
+      <div className="relative z-10 min-h-[calc(100vh-52px)] pt-30 py-10 px-4 flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

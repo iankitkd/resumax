@@ -1,38 +1,59 @@
-"use server"
+const ALGORITHM = "AES-GCM";
 
-import crypto from "crypto";
+const SECRET_KEY_HEX = process.env.RESULT_SECRET_KEY!;
 
-const ALGORITHM = "aes-256-gcm";
-const SECRET_KEY = Buffer.from(process.env.RESULT_SECRET_KEY!, "hex");
+function hexToBytes(hex: string) {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < bytes.length; i++) {
+    bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+  }
+  return bytes;
+}
+
+async function getKey() {
+  const keyBytes = hexToBytes(SECRET_KEY_HEX);
+
+  return crypto.subtle.importKey(
+    "raw",
+    keyBytes,
+    { name: ALGORITHM },
+    false,
+    ["encrypt", "decrypt"]
+  );
+}
 
 export async function encrypt(text: string) {
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv(ALGORITHM, SECRET_KEY, iv);
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await getKey();
 
-  const encrypted = Buffer.concat([
-    cipher.update(text, "utf8"),
-    cipher.final(),
-  ]);
+  const encoded = new TextEncoder().encode(text);
 
-  const tag = cipher.getAuthTag();
+  const encrypted = await crypto.subtle.encrypt(
+    { name: ALGORITHM, iv },
+    key,
+    encoded
+  );
 
-  return Buffer.concat([iv, tag, encrypted]).toString("base64");
+  const buffer = new Uint8Array(iv.length + encrypted.byteLength);
+  buffer.set(iv, 0);
+  buffer.set(new Uint8Array(encrypted), iv.length);
+
+  return Buffer.from(buffer).toString("base64");
 }
 
 export async function decrypt(data: string) {
   const buffer = Buffer.from(data, "base64");
 
-  const iv = buffer.subarray(0, 16);
-  const tag = buffer.subarray(16, 32);
-  const text = buffer.subarray(32);
+  const iv = buffer.subarray(0, 12);
+  const encrypted = buffer.subarray(12);
 
-  const decipher = crypto.createDecipheriv(ALGORITHM, SECRET_KEY, iv);
-  decipher.setAuthTag(tag);
+  const key = await getKey();
 
-  const decrypted = Buffer.concat([
-    decipher.update(text),
-    decipher.final(),
-  ]);
+  const decrypted = await crypto.subtle.decrypt(
+    { name: ALGORITHM, iv },
+    key,
+    encrypted
+  );
 
-  return decrypted.toString("utf8");
+  return new TextDecoder().decode(decrypted);
 }

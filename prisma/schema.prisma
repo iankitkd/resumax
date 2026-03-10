@@ -1,10 +1,10 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 model User {
@@ -43,7 +43,7 @@ model Account {
 }
 
 model Result {
-  id              String   @id
+  id              String   @id  @default(cuid())
   userId          String
   previewImage    String?
   previewText     String?

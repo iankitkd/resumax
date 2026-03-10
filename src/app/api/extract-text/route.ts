@@ -1,6 +1,8 @@
 import { extractTextFromBuffer } from "@/lib/pdf";
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();

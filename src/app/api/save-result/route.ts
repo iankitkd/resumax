@@ -11,10 +11,8 @@ export async function POST(req: Request) {
     const userId = session?.user?.id;
     if (!userId) return NextResponse.json({error: "Unauthorized"}, {status: 401});
 
-    // generate short id (UUID or crypto)
-    const id = crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2, 9);
-
-    await saveResult(id, result, imageUrl, userId);
+    // const id = crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2, 9);
+    const id = await saveResult(result, imageUrl, userId);
 
     return NextResponse.json({ id }, {status: 200});
   } catch (err) {
